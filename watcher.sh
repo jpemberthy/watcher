@@ -1,7 +1,16 @@
 cd ~/github/github
 FLIST=$(git status -s | awk '{print $2}')
+
 current_branch=`git branch | grep \* | awk '{print $2}'`
-ssh github-codespaces "cd /workspaces/github; git add .; git reset --hard; git pull origin $current_branch"
+local_sha=`git rev-parse HEAD`
+remote_sha=`ssh github-codespaces "cd /workspaces/github; git add .; git reset --hard -q; git rev-parse HEAD"`
+
+if [[ "$local_sha" != "$remote_sha" ]]
+then
+    echo "syncing branches HEAD"
+    git push origin $current_branch
+    ssh github-codespaces "cd /workspaces/github; git pull origin $current_branch"
+fi
 
 if [ -z "$FLIST" ]
 then
