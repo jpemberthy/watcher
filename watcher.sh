@@ -7,7 +7,7 @@ remote_sha=`ssh github-codespaces "cd /workspaces/github; git add .; git reset -
 
 if [[ "$local_sha" != "$remote_sha" ]]
 then
-    echo "syncing branches HEAD"
+    echo "syncing branches"
     git push origin $current_branch
     ssh github-codespaces "cd /workspaces/github; git pull origin $current_branch"
 fi
