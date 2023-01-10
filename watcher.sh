@@ -9,8 +9,8 @@ if [[ "$local_sha" != "$remote_sha" ]]
 then
     echo "syncing branches"
     git push origin $current_branch
-    ssh github-codespaces "cd /workspaces/github; git pull origin $current_branch"
-fi
+    ssh github-codespaces "cd /workspaces/github; bash -l -c 'git pull origin $current_branch'"
+Fi
 
 if [ -z "$FLIST" ]
 then
